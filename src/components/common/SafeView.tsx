@@ -1,5 +1,5 @@
 import { type ReactNode, type CSSProperties } from "react";
-import { COLORS } from "../constants/theme";
+import { COLORS } from "../../constants/theme";
 
 type Variant = "dark" | "light" | "white" | "transparent";
 type Edge = "top" | "bottom" | "left" | "right";

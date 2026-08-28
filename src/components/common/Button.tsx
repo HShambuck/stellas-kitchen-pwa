@@ -1,5 +1,5 @@
 import { type ReactNode, type CSSProperties } from "react";
-import { COLORS, RADIUS, FONT_SIZES, SPACING } from "../constants/theme";
+import { COLORS, RADIUS, FONT_SIZES, SPACING } from "../../constants/theme";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -31,7 +31,10 @@ const LABEL_SIZE: Record<Size, number> = {
 
 const VARIANT_STYLE: Record<Variant, CSSProperties> = {
   primary: { backgroundColor: COLORS.red, border: "none" },
-  secondary: { backgroundColor: "transparent", border: `2px solid ${COLORS.red}` },
+  secondary: {
+    backgroundColor: "transparent",
+    border: `2px solid ${COLORS.red}`,
+  },
   ghost: { backgroundColor: "transparent", border: "none" },
   danger: { backgroundColor: COLORS.redDark, border: "none" },
 };
@@ -88,8 +91,12 @@ export default function Button({
           }}
         />
       ) : (
-        <span style={{ display: "flex", alignItems: "center", gap: SPACING.sm }}>
-          {icon && <span style={{ marginRight: 2, display: "flex" }}>{icon}</span>}
+        <span
+          style={{ display: "flex", alignItems: "center", gap: SPACING.sm }}
+        >
+          {icon && (
+            <span style={{ marginRight: 2, display: "flex" }}>{icon}</span>
+          )}
           <span
             style={{
               fontWeight: 700,
