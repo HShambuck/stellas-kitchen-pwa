@@ -3,7 +3,7 @@ import axios from "axios";
 // ─── Base URL ─────────────────────────────────────────────────────────────────
 const BASE_URL =
   import.meta.env.VITE_API_URL ||
-  "https://ohh2sn3qr6.execute-api.eu-west-2.amazonaws.com/api";
+  "https://ohh2sn3qr6.execute-api.eu-west-2.amazonaws.com";
 
 // ─── Axios Instance ───────────────────────────────────────────────────────────
 const client = axios.create({
