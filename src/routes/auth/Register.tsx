@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../../components/common/Button";
 import SafeView from "../../components/common/SafeView";

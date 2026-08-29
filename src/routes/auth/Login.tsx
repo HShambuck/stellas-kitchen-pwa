@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import Button from "../../components/common/Button";
 import SafeView from "../../components/common/SafeView";
 import {
@@ -21,7 +21,6 @@ export default function LoginScreen() {
   const roleParam = searchParams.get("role");
   const { isDark } = useTheme();
   const theme = isDark ? DARK_THEME : LIGHT_THEME;
-  const navigate = useNavigate();
 
   const [selectedRole, setSelectedRole] = useState<Role>(
     (roleParam || "staff").toLowerCase().trim() as Role,

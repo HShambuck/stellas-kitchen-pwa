@@ -153,7 +153,6 @@ export default function RiderQueue() {
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [selected, setSelected] = useState<Order | null>(null);
   const [accepting, setAccepting] = useState(false);
 
@@ -165,7 +164,6 @@ export default function RiderQueue() {
       /* non-fatal */
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   }, []);
 

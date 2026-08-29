@@ -389,7 +389,6 @@ export default function Dashboard() {
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [filter, setFilter] = useState("ALL");
   const [showDispatched, setShowDispatched] = useState(false);
@@ -402,7 +401,6 @@ export default function Dashboard() {
       /* non-fatal */
     } finally {
       setLoading(false);
-      setRefreshing(false);
     }
   }, []);
 
