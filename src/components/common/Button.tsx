@@ -1,5 +1,6 @@
 import { type ReactNode, type CSSProperties } from "react";
-import { COLORS, RADIUS, FONT_SIZES, SPACING } from "../../constants/theme";
+import { COLORS, RADIUS, FONT_SIZES, SPACING, DARK_THEME, LIGHT_THEME } from "../../constants/theme";
+import { useTheme } from "../../context/ThemeContext";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
@@ -29,23 +30,6 @@ const LABEL_SIZE: Record<Size, number> = {
   lg: FONT_SIZES.md,
 };
 
-const VARIANT_STYLE: Record<Variant, CSSProperties> = {
-  primary: { backgroundColor: COLORS.red, border: "none" },
-  secondary: {
-    backgroundColor: "transparent",
-    border: `2px solid ${COLORS.red}`,
-  },
-  ghost: { backgroundColor: "transparent", border: "none" },
-  danger: { backgroundColor: COLORS.redDark, border: "none" },
-};
-
-const LABEL_COLOR: Record<Variant, string> = {
-  primary: COLORS.white,
-  secondary: COLORS.red,
-  ghost: COLORS.warm,
-  danger: COLORS.white,
-};
-
 export default function Button({
   variant = "primary",
   size = "md",
@@ -58,7 +42,30 @@ export default function Button({
   style,
   labelStyle,
 }: ButtonProps) {
+  const { isDark } = useTheme();
+  const theme = isDark ? DARK_THEME : LIGHT_THEME;
   const isDisabled = disabled || loading;
+
+  // Disabled treatment: a real muted neutral fill instead of flat opacity
+  // over a saturated color, which previously turned red into washed pink.
+  const variantStyle: CSSProperties = isDisabled
+    ? {
+        backgroundColor:
+          variant === "secondary" || variant === "ghost" ? "transparent" : theme.border,
+        border: variant === "secondary" ? `2px solid ${theme.border}` : "none",
+      }
+    : ({
+        primary: { backgroundColor: COLORS.red, border: "none", boxShadow: theme.shadowSm },
+        secondary: { backgroundColor: "transparent", border: `2px solid ${COLORS.red}` },
+        ghost: { backgroundColor: "transparent", border: "none" },
+        danger: { backgroundColor: COLORS.redDark, border: "none", boxShadow: theme.shadowSm },
+      }[variant] as CSSProperties);
+
+  const labelColor = isDisabled
+    ? theme.textFaint
+    : { primary: COLORS.white, secondary: COLORS.red, ghost: theme.textMuted, danger: COLORS.white }[
+        variant
+      ];
 
   return (
     <button
@@ -71,10 +78,9 @@ export default function Button({
         justifyContent: "center",
         width: fullWidth ? "100%" : undefined,
         padding: SIZE_PADDING[size],
-        opacity: isDisabled ? 0.45 : 1,
         cursor: isDisabled ? "not-allowed" : "pointer",
-        transition: "opacity 0.15s ease",
-        ...VARIANT_STYLE[variant],
+        transition: "opacity 0.15s ease, background-color 0.15s ease",
+        ...variantStyle,
         ...style,
       }}
     >
@@ -91,18 +97,14 @@ export default function Button({
           }}
         />
       ) : (
-        <span
-          style={{ display: "flex", alignItems: "center", gap: SPACING.sm }}
-        >
-          {icon && (
-            <span style={{ marginRight: 2, display: "flex" }}>{icon}</span>
-          )}
+        <span style={{ display: "flex", alignItems: "center", gap: SPACING.sm }}>
+          {icon && <span style={{ marginRight: 2, display: "flex" }}>{icon}</span>}
           <span
             style={{
               fontWeight: 700,
               letterSpacing: 0.2,
               fontSize: LABEL_SIZE[size],
-              color: LABEL_COLOR[variant],
+              color: labelColor,
               ...labelStyle,
             }}
           >

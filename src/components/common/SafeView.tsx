@@ -1,5 +1,5 @@
 import { type ReactNode, type CSSProperties } from "react";
-import { COLORS } from "../../constants/theme";
+import { COLORS, DARK_THEME, LIGHT_THEME } from "../../constants/theme";
 
 type Variant = "dark" | "light" | "white" | "transparent";
 type Edge = "top" | "bottom" | "left" | "right";
@@ -12,8 +12,8 @@ interface SafeViewProps {
 }
 
 const BG_MAP: Record<Variant, string> = {
-  dark: COLORS.dark,
-  light: COLORS.cream,
+  dark: DARK_THEME.bg,
+  light: LIGHT_THEME.bg,
   white: COLORS.white,
   transparent: "transparent",
 };
@@ -24,7 +24,7 @@ export default function SafeView({
   edges = ["top", "bottom", "left", "right"],
   style,
 }: SafeViewProps) {
-  const backgroundColor = BG_MAP[variant] ?? COLORS.cream;
+  const backgroundColor = BG_MAP[variant] ?? LIGHT_THEME.bg;
 
   const insetPadding: CSSProperties = {
     paddingTop: edges.includes("top") ? "env(safe-area-inset-top)" : 0,

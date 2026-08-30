@@ -28,7 +28,6 @@ function Row({
         width: "100%",
         textAlign: "left",
         padding: `${SPACING.lg}px ${SPACING.lg}px`,
-        borderBottom: `1px solid ${theme.border}`,
         background: "none",
         border: "none",
         borderBottomWidth: 1,
@@ -107,15 +106,16 @@ function EditModal({
         style={{
           width: "100%",
           maxWidth: 480,
-          backgroundColor: theme.card,
-          border: `1px solid ${theme.border}`,
+          backgroundColor: theme.cardElevated,
+          border: `1px solid ${theme.borderStrong}`,
+          boxShadow: theme.shadowMd,
           borderTopLeftRadius: RADIUS["3xl"],
           borderTopRightRadius: RADIUS["3xl"],
           padding: SPACING["2xl"],
           paddingBottom: SPACING["4xl"],
         }}
       >
-        <div style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: theme.border, margin: "0 auto", marginBottom: SPACING.xl }} />
+        <div style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: theme.borderStrong, margin: "0 auto", marginBottom: SPACING.xl }} />
         <h2 style={{ fontSize: FONT_SIZES.xl, fontWeight: 800, marginBottom: SPACING.xl, color: theme.text }}>{title}</h2>
 
         <label style={{ fontSize: FONT_SIZES.sm, fontWeight: 600, marginBottom: SPACING.xs, display: "block", color: theme.textMuted }}>
@@ -129,12 +129,13 @@ function EditModal({
           placeholder={`Enter ${fieldLabel.toLowerCase()}`}
           style={{
             width: "100%",
-            border: `1px solid ${theme.border}`,
+            border: `1.5px solid ${theme.borderStrong}`,
             borderRadius: RADIUS.lg,
             padding: `${SPACING.md}px ${SPACING.lg}px`,
             fontSize: FONT_SIZES.base,
             backgroundColor: theme.inputBg,
             color: theme.text,
+            boxSizing: "border-box",
           }}
         />
 
@@ -151,12 +152,13 @@ function EditModal({
               placeholder="Confirm password"
               style={{
                 width: "100%",
-                border: `1px solid ${theme.border}`,
+                border: `1.5px solid ${theme.borderStrong}`,
                 borderRadius: RADIUS.lg,
                 padding: `${SPACING.md}px ${SPACING.lg}px`,
                 fontSize: FONT_SIZES.base,
                 backgroundColor: theme.inputBg,
                 color: theme.text,
+                boxSizing: "border-box",
               }}
             />
           </>
@@ -174,6 +176,7 @@ function EditModal({
             fontWeight: 700,
             fontSize: FONT_SIZES.base,
             border: "none",
+            boxShadow: theme.shadowSm,
             cursor: "pointer",
           }}
         >
@@ -223,7 +226,6 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
           Settings
         </h1>
 
-        {/* Profile */}
         <SectionHeader theme={theme}>Profile</SectionHeader>
         <div style={sectionStyle(theme)}>
           <div style={{ display: "flex", alignItems: "center", padding: SPACING["2xl"], gap: SPACING.lg }}>
@@ -232,6 +234,7 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
                 width: 52, height: 52, borderRadius: 26,
                 backgroundColor: COLORS.red, display: "flex",
                 alignItems: "center", justifyContent: "center", flexShrink: 0,
+                boxShadow: theme.shadowSm,
               }}
             >
               <span style={{ color: COLORS.white, fontSize: FONT_SIZES.xl, fontWeight: 800 }}>
@@ -256,7 +259,6 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
           </div>
         </div>
 
-        {/* Account */}
         <SectionHeader theme={theme}>Account</SectionHeader>
         <div style={sectionStyle(theme)}>
           <Row theme={theme} label="Name" value={user?.name} />
@@ -265,7 +267,6 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
           <Row theme={theme} label="Change Password" onClick={() => setModal("password")} />
         </div>
 
-        {/* Appearance */}
         <SectionHeader theme={theme}>Appearance</SectionHeader>
         <div style={sectionStyle(theme)}>
           <Row
@@ -278,7 +279,7 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
                 onClick={toggleTheme}
                 style={{
                   width: 44, height: 26, borderRadius: 13, border: "none",
-                  backgroundColor: isDark ? COLORS.red : COLORS.lightBorder,
+                  backgroundColor: isDark ? COLORS.red : theme.border,
                   position: "relative", cursor: "pointer", transition: "background-color 0.15s",
                 }}
               >
@@ -287,6 +288,7 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
                     position: "absolute", top: 3, left: isDark ? 21 : 3,
                     width: 20, height: 20, borderRadius: "50%",
                     backgroundColor: COLORS.white, transition: "left 0.15s",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
                   }}
                 />
               </button>
@@ -294,14 +296,12 @@ export default function SettingsScreen({ roleLabel, roleEmoji }: { roleLabel: st
           />
         </div>
 
-        {/* App info */}
         <SectionHeader theme={theme}>App</SectionHeader>
         <div style={sectionStyle(theme)}>
           <Row theme={theme} label="Version" value="1.0.0" />
           <Row theme={theme} label="Backend" value="Stella's Kitchen API" />
         </div>
 
-        {/* Sign out */}
         <div style={{ ...sectionStyle(theme), marginTop: SPACING["2xl"] }}>
           <Row theme={theme} label="Sign Out" onClick={confirmSignOut} danger />
         </div>
@@ -324,7 +324,8 @@ function SectionHeader({ children, theme }: { children: React.ReactNode; theme: 
 function sectionStyle(theme: typeof DARK_THEME): React.CSSProperties {
   return {
     borderRadius: RADIUS["2xl"],
-    border: `1px solid ${theme.border}`,
+    border: `1px solid ${theme.borderStrong}`,
+    boxShadow: theme.shadowSm,
     overflow: "hidden",
     backgroundColor: theme.card,
   };

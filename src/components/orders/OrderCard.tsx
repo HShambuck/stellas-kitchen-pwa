@@ -1,4 +1,4 @@
-import { COLORS, FONT_SIZES, SPACING, RADIUS, ORDER_STATUS } from "../../constants/theme";
+import { COLORS, FONT_SIZES, SPACING, RADIUS, ORDER_STATUS, DARK_THEME, LIGHT_THEME } from "../../constants/theme";
 import StatusBadge from "./StatusBadge";
 
 interface OrderItem {
@@ -31,6 +31,7 @@ export default function OrderCard({
   variant?: "light" | "dark";
 }) {
   const isDark = variant === "dark";
+  const theme = isDark ? DARK_THEME : LIGHT_THEME;
 
   const itemCount = order.items?.length ?? 0;
   const itemSummary =
@@ -42,11 +43,6 @@ export default function OrderCard({
           .join(", ") + (itemCount > 2 ? ` +${itemCount - 2} more` : "");
 
   const timeAgo = formatTimeAgo(order.createdAt);
-
-  const textPrimary = isDark ? COLORS.white : COLORS.lightText;
-  const textMuted = isDark ? "#9CA3AF" : COLORS.lightTextMuted;
-  const cardBg = isDark ? COLORS.stone : COLORS.white;
-  const borderColor = isDark ? COLORS.border : COLORS.lightBorder;
   const status = order.statusState || order.status;
 
   return (
@@ -61,23 +57,23 @@ export default function OrderCard({
         borderRadius: RADIUS["2xl"],
         padding: SPACING["2xl"],
         marginBottom: SPACING.md,
-        backgroundColor: cardBg,
-        border: `1px solid ${borderColor}`,
-        boxShadow: isDark ? "none" : "0 2px 8px rgba(0,0,0,0.06)",
+        backgroundColor: theme.card,
+        border: `1px solid ${theme.borderStrong}`,
+        boxShadow: theme.shadowSm,
         cursor: "pointer",
       }}
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: SPACING.sm }}>
         <div style={{ display: "flex", alignItems: "center", gap: SPACING.sm }}>
-          <span style={{ fontSize: FONT_SIZES.sm, fontWeight: 700, letterSpacing: 1, color: textPrimary }}>
+          <span style={{ fontSize: FONT_SIZES.sm, fontWeight: 700, letterSpacing: 1, color: theme.text }}>
             #{String(order._id || order.id).slice(-4).toUpperCase()}
           </span>
-          <span style={{ fontSize: FONT_SIZES.xs, color: textMuted }}>{timeAgo}</span>
+          <span style={{ fontSize: FONT_SIZES.xs, color: theme.textMuted }}>{timeAgo}</span>
         </div>
         <StatusBadge status={status} size="sm" />
       </div>
 
-      <div style={{ fontSize: FONT_SIZES.md, fontWeight: 700, marginBottom: SPACING.xs, color: textPrimary }}>
+      <div style={{ fontSize: FONT_SIZES.md, fontWeight: 700, marginBottom: SPACING.xs, color: theme.text }}>
         {order.customerName || "Web Customer"}
       </div>
 
@@ -85,7 +81,7 @@ export default function OrderCard({
         <span
           style={{
             fontSize: FONT_SIZES.sm,
-            color: textMuted,
+            color: theme.textMuted,
             display: "block",
             overflow: "hidden",
             textOverflow: "ellipsis",
@@ -100,7 +96,7 @@ export default function OrderCard({
         <span
           style={{
             fontSize: FONT_SIZES.xs,
-            color: textMuted,
+            color: theme.textMuted,
             flex: 1,
             marginRight: SPACING.sm,
             overflow: "hidden",
@@ -138,7 +134,7 @@ function getAccentColor(status?: string) {
     [ORDER_STATUS.OUT_FOR_DELIVERY]: COLORS.delivery,
     [ORDER_STATUS.DELIVERED]: COLORS.delivered,
   };
-  return (status && map[status]) ?? COLORS.muted;
+  return (status && map[status]) ?? COLORS.pending;
 }
 
 function formatTimeAgo(isoString?: string) {
