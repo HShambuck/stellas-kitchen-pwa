@@ -2,10 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1" />
+
+    <!-- Standard favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>stellas-kitchen-pwa</title>
+
+    <!-- iOS: makes the app launch full-screen from the home screen icon,
+         with no Safari chrome, and sets the icon iOS actually uses
+         (iOS does not read the web manifest's icons array). -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Stella's Kitchen" />
+
+    <!-- Android/Chrome address-bar tint to match brand -->
+    <meta name="theme-color" content="#EF2F2F" />
+
+    <title>Stella's Kitchen</title>
   </head>
   <body>
     <div id="root"></div>

@@ -14,21 +14,29 @@ export default defineConfig({
         name: "Stella's Kitchen",
         short_name: "StellasKitchen",
         description: "Multi-channel ordering and kitchen management system",
-        theme_color: '#800080',
-        background_color: '#ffffff',
+        theme_color: '#EF2F2F',
+        background_color: '#1C1917',
         display: 'standalone',
         start_url: '/',
         icons: [
           {
             src: 'pwa-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
+            purpose: 'any',
           },
           {
             src: 'pwa-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
+            type: 'image/png',
+            purpose: 'any',
+          },
+          {
+            src: 'pwa-512x512-maskable.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ]
       }
     })
