@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { COLORS, ROLES } from "../constants/theme";
+import { ROLES, DARK_THEME } from "../constants/theme";
 
 export default function Index() {
   const { isLoading, isSignedIn, user } = useAuth();
@@ -15,20 +15,21 @@ export default function Index() {
     }
   }, []);
 
-  // Wait for auth + storage check (no "navigator mount" delay needed on web)
   if (isLoading || hasRegistered === null) {
     return (
       <div
         style={{
           minHeight: "100dvh",
-          backgroundColor: COLORS.dark,
+          backgroundColor: DARK_THEME.bg,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <div className="animate-spin h-8 w-8 rounded-full border-2 border-t-transparent"
-             style={{ borderColor: COLORS.red, borderTopColor: "transparent" }} />
+        <div
+          className="animate-spin h-8 w-8 rounded-full border-2 border-t-transparent"
+          style={{ borderColor: "#EF4444", borderTopColor: "transparent" }}
+        />
       </div>
     );
   }
