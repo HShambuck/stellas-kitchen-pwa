@@ -55,7 +55,7 @@ export default function RiderLayout() {
           backgroundColor: theme.tabBar,
           borderTop: `1px solid ${theme.tabBorder}`,
           paddingBottom: "calc(env(safe-area-inset-bottom) + 6px)",
-          boxShadow: "0 -3px 6px rgba(0,0,0,0.1)",
+          boxShadow: theme.shadowMd,
         }}
       >
         {TABS.map((tab) => (

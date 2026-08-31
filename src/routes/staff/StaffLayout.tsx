@@ -53,7 +53,7 @@ export default function StaffLayout() {
           backgroundColor: theme.tabBar,
           borderTop: `1px solid ${theme.tabBorder}`,
           paddingBottom: "calc(env(safe-area-inset-bottom) + 6px)",
-          boxShadow: "0 -3px 6px rgba(0,0,0,0.08)",
+          boxShadow: theme.shadowMd,
         }}
       >
         {TABS.map((tab) => (

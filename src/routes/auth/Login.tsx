@@ -1,16 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Button from "../../components/common/Button";
 import SafeView from "../../components/common/SafeView";
-import {
-  BRAND,
-  COLORS,
-  DARK_THEME,
-  FONT_SIZES,
-  LIGHT_THEME,
-  RADIUS,
-  SPACING,
-} from "../../constants/theme";
+import { BRAND, COLORS, DARK_THEME, FONT_SIZES, LIGHT_THEME, RADIUS, SPACING } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
 import { useTheme } from "../../context/ThemeContext";
 import type { Role } from "../../api/auth";
@@ -21,9 +13,10 @@ export default function LoginScreen() {
   const roleParam = searchParams.get("role");
   const { isDark } = useTheme();
   const theme = isDark ? DARK_THEME : LIGHT_THEME;
+  const navigate = useNavigate();
 
   const [selectedRole, setSelectedRole] = useState<Role>(
-    (roleParam || "staff").toLowerCase().trim() as Role,
+    ((roleParam || "staff").toLowerCase().trim() as Role)
   );
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
@@ -60,10 +53,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeView
-      variant={isDark ? "dark" : "light"}
-      edges={["top", "left", "right"]}
-    >
+    <SafeView variant={isDark ? "dark" : "light"} edges={["top", "left", "right"]}>
       <div
         style={{
           flex: 1,
@@ -88,67 +78,29 @@ export default function LoginScreen() {
         >
           <div
             style={{
-              width: 64,
-              height: 64,
-              borderRadius: 20,
-              backgroundColor: COLORS.red,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: SPACING.md,
+              width: 64, height: 64, borderRadius: 20,
+              backgroundColor: COLORS.red, display: "flex",
+              alignItems: "center", justifyContent: "center",
+              marginBottom: SPACING.md, boxShadow: theme.shadowMd,
             }}
           >
-            <span
-              style={{
-                color: COLORS.white,
-                fontSize: FONT_SIZES.xl,
-                fontWeight: 900,
-                letterSpacing: 2,
-              }}
-            >
-              SK
-            </span>
+            <span style={{ color: COLORS.white, fontSize: FONT_SIZES.xl, fontWeight: 900, letterSpacing: 2 }}>SK</span>
           </div>
-          <span
-            style={{
-              color: COLORS.red,
-              fontSize: FONT_SIZES.xs,
-              fontWeight: 700,
-              letterSpacing: 3,
-              marginBottom: SPACING.md,
-            }}
-          >
+          <span style={{ color: COLORS.red, fontSize: FONT_SIZES.xs, fontWeight: 700, letterSpacing: 3, marginBottom: SPACING.md }}>
             {BRAND.name.toUpperCase()}
           </span>
-          <h1
-            style={{
-              fontSize: FONT_SIZES["2xl"],
-              fontWeight: 900,
-              letterSpacing: -0.5,
-              marginBottom: SPACING.xs,
-              color: theme.text,
-            }}
-          >
+          <h1 style={{ fontSize: FONT_SIZES["2xl"], fontWeight: 900, letterSpacing: -0.5, marginBottom: SPACING.xs, color: theme.text }}>
             Welcome back
           </h1>
-          <p
-            style={{
-              fontSize: FONT_SIZES.sm,
-              color: theme.textMuted,
-              margin: 0,
-            }}
-          >
-            Sign in to your workspace
-          </p>
+          <p style={{ fontSize: FONT_SIZES.sm, color: theme.textMuted, margin: 0 }}>Sign in to your workspace</p>
         </div>
 
-        {/* Role toggle */}
-        <div
-          style={{ display: "flex", gap: SPACING.sm, marginBottom: SPACING.xl }}
-        >
+        {/* Role toggle — solid fill on the selected state instead of a
+            diluted pastel mix (was reading as "washed out") */}
+        <div style={{ display: "flex", gap: SPACING.sm, marginBottom: SPACING.xl }}>
           {[
-            { value: "staff", label: "🍳 Staff" },
-            { value: "rider", label: "🏍️ Rider" },
+            { value: "staff", label: "🍳 Staff", accent: COLORS.red },
+            { value: "rider", label: "🏍️ Rider", accent: "#3B82F6" },
           ].map((r) => {
             const active = selectedRole === r.value;
             return (
@@ -162,24 +114,18 @@ export default function LoginScreen() {
                   flex: 1,
                   padding: `${SPACING.md}px 0`,
                   borderRadius: RADIUS.xl,
-                  border: `1.5px solid ${active ? (r.value === "rider" ? "#3B82F6" : COLORS.red) : theme.border}`,
-                  backgroundColor: active
-                    ? r.value === "rider"
-                      ? "#8ebaf3"
-                      : "#f7a3a3"
-                    : theme.card,
+                  border: `1.5px solid ${active ? r.accent : theme.borderStrong}`,
+                  backgroundColor: active ? r.accent : theme.card,
+                  boxShadow: active ? theme.shadowSm : "none",
                   cursor: "pointer",
+                  transition: "background-color 0.15s ease",
                 }}
               >
                 <span
                   style={{
                     fontSize: FONT_SIZES.sm,
                     fontWeight: 700,
-                    color: active
-                      ? r.value === "rider"
-                        ? "#3B82F6"
-                        : COLORS.red
-                      : theme.textMuted,
+                    color: active ? COLORS.white : theme.textMuted,
                   }}
                 >
                   {r.label}
@@ -221,24 +167,8 @@ export default function LoginScreen() {
         </div>
 
         {!!error && (
-          <div
-            style={{
-              backgroundColor: "#3F1212",
-              borderRadius: RADIUS.lg,
-              padding: SPACING.md,
-              marginBottom: SPACING.lg,
-              border: "1px solid #7F1D1D",
-            }}
-          >
-            <span
-              style={{
-                color: "#FCA5A5",
-                fontSize: FONT_SIZES.sm,
-                lineHeight: "20px",
-              }}
-            >
-              {error}
-            </span>
+          <div style={{ backgroundColor: "#3F1212", borderRadius: RADIUS.lg, padding: SPACING.md, marginBottom: SPACING.lg, border: "1px solid #7F1D1D" }}>
+            <span style={{ color: "#FCA5A5", fontSize: FONT_SIZES.sm, lineHeight: "20px" }}>{error}</span>
           </div>
         )}
 
@@ -254,14 +184,7 @@ export default function LoginScreen() {
         <div style={{ textAlign: "center", padding: `${SPACING.sm}px 0` }}>
           <span style={{ fontSize: FONT_SIZES.sm, color: theme.textMuted }}>
             New here?{"  "}
-            <Link
-              to="/auth/user-type"
-              style={{
-                color: COLORS.red,
-                fontWeight: 700,
-                textDecoration: "none",
-              }}
-            >
+            <Link to="/auth/user-type" style={{ color: COLORS.red, fontWeight: 700, textDecoration: "none" }}>
               Create an account
             </Link>
           </span>
@@ -283,14 +206,11 @@ function fieldLabelStyle(theme: typeof DARK_THEME): React.CSSProperties {
   };
 }
 
-function inputStyle(
-  theme: typeof DARK_THEME,
-  isFocused: boolean,
-): React.CSSProperties {
+function inputStyle(theme: typeof DARK_THEME, isFocused: boolean): React.CSSProperties {
   return {
     width: "100%",
     borderRadius: RADIUS.lg,
-    border: `1.5px solid ${isFocused ? COLORS.red : theme.border}`,
+    border: `1.5px solid ${isFocused ? COLORS.red : theme.borderStrong}`,
     padding: `${SPACING.md}px ${SPACING.lg}px`,
     fontSize: FONT_SIZES.base,
     marginBottom: SPACING.lg,
